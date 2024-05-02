@@ -32,46 +32,47 @@
     {assign var="atLeastOneExists" value=false}
     {assign var="phoneIsRequired" value=(isset($required_fields) && (in_array('phone', $required_fields) || in_array('phone_mobile', $required_fields)))}
     {foreach from=$ordered_adr_fields item=field_name}
+
+
+
+
       {if $field_name eq 'company'}
+      {assign var='field_label' value='Company'}
         <div class="form-group">
-          <label for="company">{l s='Company'}{if isset($required_fields) && in_array($field_name, $required_fields)} <sup>*</sup>{/if}</label>
-          <input class="form-control validate" data-validate="{$address_validation.$field_name.validate}" type="text" id="company" name="company" value="{if isset($smarty.post.company)}{$smarty.post.company}{else}{if isset($address->company)}{$address->company|escape:'html':'UTF-8'}{/if}{/if}" {if isset($required_fields) && in_array($field_name, $required_fields)}required{/if}>
+          <label for="company">{l s='Company'}{if isset($required_fields) && in_array($field_label, $required_fields)}<sup>*</sup>{/if}</label>
+
+          <input class="form-control validate" data-validate="{$address_validation.$field_name.validate}" type="text" id="company" name="company" value="{if isset($smarty.post.company)}{$smarty.post.company}{else}{if isset($address->company)}{$address->company|escape:'html':'UTF-8'}{/if}{/if}" {if isset($required_fields) && in_array($field_label, $required_fields)}required{/if}>
         </div>
       {/if}
-      {if $field_name eq 'vat_number'}
-        <div id="vat_area">
-          {if isset($vat_display) && $vat_display >= 3}
-            <div class="checkbox">
-              <label for="vat-exemption">
-                <input
-                        type="checkbox"
-                        name="vat_exemption"
-                        id="vat-exemption"
-                        value="1"
-                        {if (isset($address->vat_exemption) && $address->vat_exemption)
-                        || (isset($address->vat_number) && strlen($address->vat_number))}
-                          checked="checked"
-                        {/if}
-                >
-                <span class="label-text">
-                {l s='Yes, I qualify for VAT Relief!'}
-                </span>
-              </label>
+
+
+       {if $field_name eq 'vat_number'}
+       {assign var='field_label' value='VAT number'}
+<div class="form-group">
+              <label for="vat-number">{l s='VAT number'}{if isset($required_fields) && in_array($field_label, $required_fields)} <sup>*</sup>{/if}</label>
+              <input type="text" class="form-control validate" data-validate="{$address_validation.$field_name.validate}" id="vat-number" name="vat_number" value="{if isset($smarty.post.vat_number)}{$smarty.post.vat_number}{else}{if isset($address->vat_number)}{$address->vat_number|escape:'html':'UTF-8'}{/if}{/if}" {if isset($required_fields) && in_array($field_label, $required_fields)}required{/if}>
             </div>
-            <p id="vat-exemption-hint" class="help-block" style="display: none;">
-              {l s='You\'ll get asked to verify your qualification.'}
-            </p>
-          {/if}
-          <div id="vat_number">
-            <div class="form-group">
-              <label for="vat-number">{l s='VAT number'}{if isset($required_fields) && in_array($field_name, $required_fields)} <sup>*</sup>{/if}</label>
-              <input type="text" class="form-control validate" data-validate="{$address_validation.$field_name.validate}" id="vat-number" name="vat_number" value="{if isset($smarty.post.vat_number)}{$smarty.post.vat_number}{else}{if isset($address->vat_number)}{$address->vat_number|escape:'html':'UTF-8'}{/if}{/if}" {if isset($required_fields) && in_array($field_name, $required_fields)}required{/if}>
-            </div>
-          </div>
-        </div>
       {/if}
+
+{if $field_name eq 'dni'}
+    {assign var='field_label' value='dni'}
+    <div class="form-group">
+        <label for="dni">{l s='dni'}{if isset($required_fields) && in_array($field_label, $required_fields)} <sup>*</sup>{/if}</label>
+        <input type="text" class="form-control validate" data-validate="{$address_validation.$field_name.validate}" id="dni" name="dni" value="{if isset($smarty.post.dni)}{$smarty.post.dni}{else}{if isset($address->dni)}{$address->dni|escape:'html':'UTF-8'}{/if}{/if}" {if isset($required_fields) && in_array($field_label, $required_fields)}required{/if}>
+    </div>
+{/if}
+
+
+
+
+
+
+
+
+
       {if $field_name eq 'dni'}
         {assign var="dniExist" value=true}
+
         <div class="required form-group dni">
           <label for="dni">{l s='Identification number'} <sup>*</sup></label>
           <input class="form-control" data-validate="{$address_validation.$field_name.validate}" type="text" name="dni" id="dni" value="{if isset($smarty.post.dni)}{$smarty.post.dni}{else}{if isset($address->dni)}{$address->dni|escape:'html':'UTF-8'}{/if}{/if}">
@@ -97,15 +98,18 @@
         </div>
       {/if}
       {if $field_name eq 'address2'}
+      {assign var='field_label' value='Address (Line 2)'}
         <div class="required form-group">
-          <label for="address2">{l s='Address (Line 2)'}{if isset($required_fields) && in_array($field_name, $required_fields)} <sup>*</sup>{/if}</label>
-          <input class="validate form-control" data-validate="{$address_validation.$field_name.validate}" type="text" id="address2" name="address2" value="{if isset($smarty.post.address2)}{$smarty.post.address2}{else}{if isset($address->address2)}{$address->address2|escape:'html':'UTF-8'}{/if}{/if}" {if isset($required_fields) && in_array($field_name, $required_fields)}required{/if}>
+          <label for="address2">{l s='Address (Line 2)'}{if isset($required_fields) && in_array($field_label, $required_fields)} <sup>*</sup>{/if}</label>
+          <input class="validate form-control" data-validate="{$address_validation.$field_name.validate}" type="text" id="address2" name="address2" value="{if isset($smarty.post.address2)}{$smarty.post.address2}{else}{if isset($address->address2)}{$address->address2|escape:'html':'UTF-8'}{/if}{/if}" {if isset($required_fields) && in_array($field_label, $required_fields)}required{/if}>
         </div>
       {/if}
       {if $field_name eq 'postcode'}
+      {assign var='field_label' value='Zip/Postal Code'}
         {assign var="postCodeExist" value=true}
         <div class="required postcode form-group unvisible">
-          <label for="postcode">{l s='Zip/Postal Code'} <sup>*</sup></label>
+
+          <label for="postcode">{l s='Zip/Postal Code'}{if isset($required_fields) && in_array($field_label, $required_fields)} <sup>*</sup>{/if}</label>
           <input class="is_required validate form-control" data-validate="{$address_validation.$field_name.validate}" type="text" id="postcode" name="postcode" value="{if isset($smarty.post.postcode)}{$smarty.post.postcode}{else}{if isset($address->postcode)}{$address->postcode|escape:'html':'UTF-8'}{/if}{/if}">
         </div>
       {/if}
@@ -131,39 +135,40 @@
           </select>
         </div>
       {/if}
+
+
+
+
+
       {if $field_name eq 'phone'}
-        {assign var="homePhoneExist" value=true}
-        {assign var="isRequired" value=(isset($required_fields) && in_array($field_name, $required_fields))}
-        <div class="form-group phone-number">
-          <label for="phone">{l s='Home phone'}
-            {if $isRequired}
-              <sup>*</sup>
-            {elseif isset($one_phone_at_least) && $one_phone_at_least && !$phoneIsRequired}
-              <sup>**</sup>
-            {/if}
-          </label>
-          <input class="{if isset($one_phone_at_least) && $one_phone_at_least}is_required{/if} validate form-control" data-validate="{$address_validation.phone.validate}" type="tel" id="phone" name="phone" value="{if isset($smarty.post.phone)}{$smarty.post.phone}{else}{if isset($address->phone)}{$address->phone|escape:'html':'UTF-8'}{/if}{/if}">
-        </div>
-        <div class="clearfix"></div>
-      {/if}
-      {if $field_name eq 'phone_mobile'}
-        {assign var="mobilePhoneExist" value=true}
-        {assign var="isRequired" value=(isset($required_fields) && in_array($field_name, $required_fields))}
-        <div class="{if isset($one_phone_at_least) && $one_phone_at_least}required {/if}form-group">
-          <label for="phone_mobile">{l s='Mobile phone'}
-            {if $isRequired}
-              <sup>*</sup>
-            {elseif isset($one_phone_at_least) && $one_phone_at_least && !$phoneIsRequired}
-              <sup>**</sup>
-            {/if}
-          </label>
-          <input class="validate form-control" data-validate="{$address_validation.phone_mobile.validate}" type="tel" id="phone_mobile" name="phone_mobile" value="{if isset($smarty.post.phone_mobile)}{$smarty.post.phone_mobile}{else}{if isset($address->phone_mobile)}{$address->phone_mobile|escape:'html':'UTF-8'}{/if}{/if}">
-        </div>
-      {/if}
-      {if (($field_name eq 'phone') || ($field_name eq 'phone_mobile')) && !isset($atLeastOneExists) && isset($one_phone_at_least) && $one_phone_at_least && !$phoneIsRequired}
-        {assign var="atLeastOneExists" value=true}
-        <p class="help-block required">** {l s='You must register at least one phone number.'}</p>
-      {/if}
+    {assign var="homePhoneExist" value=true}
+    {assign var='field_label' value='Home phone'}
+    {assign var="isRequired" value=(isset($required_fields) && in_array($field_label, $required_fields))}
+    <div class="form-group phone-number">
+     <label for="phone">{l s='Home phone'}{if isset($required_fields) && in_array($field_label, $required_fields)} <sup>*</sup>{/if}</label>
+        <input class="{if isset($one_phone_at_least) && $one_phone_at_least}is_required{/if} validate form-control" data-validate="{$address_validation.phone.validate}" type="tel" id="phone" name="phone" value="{if isset($smarty.post.phone)}{$smarty.post.phone}{else}{if isset($address->phone)}{$address->phone|escape:'html':'UTF-8'}{/if}{/if}" {if $isRequired}required{/if}>
+    </div>
+    <div class="clearfix"></div>
+{/if}
+
+
+
+{if $field_name eq 'phone_mobile'}
+    {assign var="homePhoneExist" value=true}
+    {assign var='field_label' value='Mobile phone'}
+    {assign var="isRequired" value=(isset($required_fields) && in_array($field_label, $required_fields))}
+    <div class="form-group phone-number">
+       <label for="phone_mobile">{l s='Mobile phone'}{if isset($required_fields) && in_array($field_label, $required_fields)} <sup>*</sup>{/if}</label>
+        <input class="{if isset($one_phone_at_least) && $one_phone_at_least}is_required{/if} validate form-control" data-validate="{$address_validation.phone_mobile.validate}" type="tel" id="phone_mobile" name="phone_mobile" value="{if isset($smarty.post.phone_mobile)}{$smarty.post.phone_mobile}{else}{if isset($address->phone_mobile)}{$address->phone_mobile|escape:'html':'UTF-8'}{/if}{/if}" {if $isRequired}required{/if}>
+    </div>
+    <div class="clearfix"></div>
+{/if}
+
+
+
+
+
+
     {/foreach}
     {if !$postCodeExist}
       <div class="required postcode form-group unvisible">
@@ -186,26 +191,33 @@
         <p class="help-block">{l s='DNI / NIF / NIE'}</p>
       </div>
     {/if}
-    <div class="form-group">
-      <label for="other">{l s='Additional information'}</label>
-      <textarea class="validate form-control" data-validate="{$address_validation.other.validate}" id="other" name="other" cols="26" rows="3" >{if isset($smarty.post.other)}{$smarty.post.other}{else}{if isset($address->other)}{$address->other|escape:'html':'UTF-8'}{/if}{/if}</textarea>
-    </div>
-    {if !$homePhoneExist}
+
+
+
+      {assign var='field_label' value='Additional information'}
+        {assign var="postCodeExist" value=true}
+        <div class="required postcode form-group unvisible">
+
+          <label for="postcode">{l s='Additional information'}{if isset($required_fields) && in_array($field_label, $required_fields)} <sup>*</sup>{/if}</label>
+        <textarea class="is_required validate form-control" data-validate="{$address_validation.other.validate}" id="other" name="other" cols="26" rows="3" {if isset($required_fields) && in_array($field_label, $required_fields)}required{/if}>{if isset($smarty.post.other)}{$smarty.post.other}{else}{if isset($address->other)}{$address->other|escape:'html':'UTF-8'}{/if}{/if}</textarea>
+
+
+
+        </div>
+
+
+{if !$homePhoneExist}
       <div class="form-group phone-number">
         <label for="phone">{l s='Home phone'}</label>
         <input class="{if isset($one_phone_at_least) && $one_phone_at_least}is_required{/if} validate form-control" data-validate="{$address_validation.phone.validate}" type="tel" id="phone" name="phone" value="{if isset($smarty.post.phone)}{$smarty.post.phone}{else}{if isset($address->phone)}{$address->phone|escape:'html':'UTF-8'}{/if}{/if}">
       </div>
     {/if}
     <div class="clearfix"></div>
-    {if !$mobilePhoneExist}
-      <div class="{if isset($one_phone_at_least) && $one_phone_at_least}required {/if}form-group">
-        <label for="phone_mobile">{l s='Mobile phone'}{if isset($one_phone_at_least) && $one_phone_at_least} <sup>**</sup>{/if}</label>
-        <input class="validate form-control" data-validate="{$address_validation.phone_mobile.validate}" type="tel" id="phone_mobile" name="phone_mobile" value="{if isset($smarty.post.phone_mobile)}{$smarty.post.phone_mobile}{else}{if isset($address->phone_mobile)}{$address->phone_mobile|escape:'html':'UTF-8'}{/if}{/if}">
-      </div>
-    {/if}
-    {if isset($one_phone_at_least) && $one_phone_at_least && !$atLeastOneExists && !$phoneIsRequired}
-      <p class="help-block required">** {l s='You must register at least one phone number.'}</p>
-    {/if}
+
+
+
+
+
     <div class="required form-group" id="adress_alias">
       <label for="alias">{l s='Please assign an address title for future reference.'} <sup>*</sup></label>
       <input type="text" id="alias" class="is_required validate form-control" data-validate="{$address_validation.alias.validate}" name="alias" value="{if isset($smarty.post.alias)}{$smarty.post.alias}{elseif isset($address->alias)}{$address->alias|escape:'html':'UTF-8'}{elseif !$select_address}{l s='My address'}{/if}" required>
